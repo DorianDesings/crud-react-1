@@ -1,0 +1,42 @@
+[
+  {
+    "userId": "356236ef-a50c-4bc7-9fa6-66450119634f",
+    "title": "Mr.",
+    "name": "Carles Méndez",
+    "age": 25,
+    "username": "Carles_Fay22",
+    "email": "Carles.King30@yahoo.com",
+    "profileImage": "https://randomuser.me/api/portraits/men/6.jpg",
+    "active": false
+  },
+  {
+    "userId": "5b744899-0deb-4e8b-ac45-f420fccb3a39",
+    "title": "Ms.",
+    "name": "Shany Coronado",
+    "age": 31,
+    "username": "Shany.Coronado10",
+    "email": "Laney82@hotmail.com",
+    "profileImage": "https://randomuser.me/api/portraits/women/57.jpg",
+    "active": false
+  },
+  {
+    "userId": "ceac053f-e991-4e3a-9367-5276bc1ba6e6",
+    "title": "Dr.",
+    "name": "Daniel Montéz",
+    "age": 38,
+    "username": "Daniel_Witting43",
+    "email": "Daniel_Veum@hotmail.com",
+    "profileImage": "https://randomuser.me/api/portraits/men/5.jpg",
+    "active": false
+  },
+  {
+    "userId": "df6b1632-881a-4086-a66b-82777469f8f4",
+    "title": "Mr.",
+    "name": "Iván Apodaca",
+    "age": 57,
+    "username": "Fausto4",
+    "email": "Daren.Apodaca@gmail.com",
+    "profileImage": "https://randomuser.me/api/portraits/men/88.jpg",
+    "active": true
+  }
+]
