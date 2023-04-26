@@ -21,10 +21,32 @@ controller.userById = (req, res) => {
     const jsonData = JSON.parse(data);
     const userExists = jsonData.some((item) => item.userId === req.params.id);
     if (!userExists) {
-      res.status(404).send({ message: "El usuario no existe" });
+      return res.status(404).send({ message: "El usuario no existe" });
     }
     const user = jsonData.find((item) => item.userId === req.params.id);
-    return res.send(user);
+    res.send(user);
+  });
+};
+
+// Eliminar usuario por ID
+
+controller.deleteUser = (req, res) => {
+  fs.readFile(USERS, (err, data) => {
+    if (err) res.status(500).send({ message: "Error al leer el archivo" });
+    const jsonData = JSON.parse(data);
+    const userExists = jsonData.some((item) => item.userId === req.params.id);
+    if (!userExists) {
+      return res.status(404).send({ message: "El usuario no existe" });
+    }
+    const indexToDelete = jsonData.findIndex(
+      (item) => item.userId === req.params.id
+    );
+    jsonData.splice(indexToDelete, 1);
+    fs.writeFile(USERS, JSON.stringify(jsonData), (err, data) => {
+      if (err)
+        return res.status(500).send({ message: "Error al guardar el archivo" });
+      res.status(202).send({ message: "Usuario eliminado con éxito" });
+    });
   });
 };
 
