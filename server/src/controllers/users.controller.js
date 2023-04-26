@@ -86,4 +86,60 @@ controller.createUser = (req, res) => {
   });
 };
 
+// Actualizar usuario por ID
+
+controller.updateUser = (req, res) => {
+  fs.readFile(USERS, (err, data) => {
+    if (err) res.status(500).send({ message: "Error al leer el archivo" });
+    const jsonData = JSON.parse(data);
+    const userExists = jsonData.some((item) => item.userId === req.params.id);
+    if (!userExists) {
+      return res.status(404).send({ message: "El usuario no existe" });
+    }
+
+    const newData = req.body;
+    const userIndex = jsonData.findIndex(
+      (item) => item.userId === newData.userId
+    );
+    const userToUpdate = jsonData[userIndex];
+
+    /*
+    // Comprobar email duplicado VERSIÓN FOR EACH
+    const emailExists1 = jsonData.forEach((item) => {
+      if (item.email === newData.email && item.userId !== newData.userId) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    if (emailExists1) {
+      return res
+        .status(409)
+        .send({ message: "Ya existe un usuario con el mismo email" });
+    } */
+
+    /* // Comprobar email duplicado
+    const emailExists = jsonData.some((item) => {
+      console.log(item.email === newData.email);
+      console.log(item.userId !== newData.userId);
+      console.log("------");
+      item.email === newData.email && item.userId !== newData.userId;
+    });
+    if (emailExists) {
+      return res
+        .status(409)
+        .send({ message: "Ya existe un usuario con el mismo email" });
+    } */
+
+    const updatedUser = { ...userToUpdate, ...newData };
+    jsonData.splice(userIndex, 1, updatedUser);
+
+    fs.writeFile(USERS, JSON.stringify(jsonData), (err, data) => {
+      if (err)
+        return res.status(500).send({ message: "Error al guardar el archivo" });
+      res.status(202).send({ message: "Usuario actualizado con éxito" });
+    });
+  });
+};
+
 module.exports = controller;
