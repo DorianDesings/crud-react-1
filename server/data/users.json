@@ -78,5 +78,15 @@
     "email": "Anni_Padilla@hotmail.com",
     "profileImage": "https://randomuser.me/api/portraits/women/3.jpg",
     "active": false
+  },
+  {
+    "title": "Mr.",
+    "name": "Nuevo",
+    "age": 80,
+    "username": "Nuevo",
+    "email": "nuevo",
+    "profileImage": "https://randomuser.me/api/portraits/women/61.jpg",
+    "active": false,
+    "userId": "c72d0d2f-0c7b-4034-9e92-0b69a9a8cc95"
   }
 ]
