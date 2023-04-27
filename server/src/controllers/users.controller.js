@@ -90,54 +90,47 @@ controller.createUser = (req, res) => {
 
 controller.updateUser = (req, res) => {
   fs.readFile(USERS, (err, data) => {
-    if (err) res.status(500).send({ message: "Error al leer el archivo" });
+    if (err) res.status(500).send({ message: 'Error al leer el archivo' });
     const jsonData = JSON.parse(data);
-    const userExists = jsonData.some((item) => item.userId === req.params.id);
-    if (!userExists) {
-      return res.status(404).send({ message: "El usuario no existe" });
+    const userIndex = jsonData.findIndex(item => item.userId === req.params.id);
+    if (userIndex === -1) {
+      return res.status(404).send({ message: 'El usuario no existe' });
     }
 
-    const newData = req.body;
-    const userIndex = jsonData.findIndex(
-      (item) => item.userId === newData.userId
-    );
     const userToUpdate = jsonData[userIndex];
 
-    /*
-    // Comprobar email duplicado VERSIÓN FOR EACH
-    const emailExists1 = jsonData.forEach((item) => {
-      if (item.email === newData.email && item.userId !== newData.userId) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (emailExists1) {
-      return res
-        .status(409)
-        .send({ message: "Ya existe un usuario con el mismo email" });
-    } */
+    const newData = req.body;
 
-    /* // Comprobar email duplicado
-    const emailExists = jsonData.some((item) => {
-      console.log(item.email === newData.email);
-      console.log(item.userId !== newData.userId);
-      console.log("------");
-      item.email === newData.email && item.userId !== newData.userId;
-    });
-    if (emailExists) {
-      return res
-        .status(409)
-        .send({ message: "Ya existe un usuario con el mismo email" });
-    } */
+    if (newData.email) {
+      const userInConflict = jsonData.some(
+        user => user.email === newData.email && user.userId !== req.params.id
+      );
 
+      if (userInConflict)
+        return res
+          .status(409)
+          .send({ message: 'Ya existe un usuario con el mismo email' });
+    }
+
+    if (newData.username) {
+      const userInConflict = jsonData.some(
+        user =>
+          user.username === newData.username && user.userId !== req.params.id
+      );
+
+      if (userInConflict)
+        return res
+          .status(409)
+          .send({ message: 'Ya existe un usuario con el mismo username' });
+    }
     const updatedUser = { ...userToUpdate, ...newData };
+
     jsonData.splice(userIndex, 1, updatedUser);
 
     fs.writeFile(USERS, JSON.stringify(jsonData), (err, data) => {
       if (err)
-        return res.status(500).send({ message: "Error al guardar el archivo" });
-      res.status(202).send({ message: "Usuario actualizado con éxito" });
+        return res.status(500).send({ message: 'Error al guardar el archivo' });
+      res.status(202).send({ message: 'Usuario actualizado con éxito' });
     });
   });
 };
